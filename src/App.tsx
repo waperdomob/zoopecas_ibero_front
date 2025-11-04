@@ -1,24 +1,26 @@
-'use client'
+// src/App.tsx
 import React from 'react';
-import Link from 'next/link';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
 import { Toaster } from 'react-hot-toast';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { es } from 'date-fns/locale';
-import { AuthProvider } from '@/contexts/AuthContext';
-import LoginForm from '@/components/auth/LoginForm';
-import RegisterForm from '@/components/auth/RegisterForm';
-import ProtectedRoute from '@/components/common/ProtectedRoute';
-import DashboardLayout from '@/components/layout/DashboardLayout';
-import Dashboard from '@/pages/Dashboard';
-import ClientsPage from '@/pages/Clients';
-import Profile from '@/pages/Profile';
-import Unauthorized from '@/pages/Unauthorized';
-import NotFound from '@/pages/NotFound';
-import Pets from '@/pages/Pets';
 
+// Context
+import { AuthProvider } from './contexts/AuthContext';
+
+// Components
+import ProtectedRoute from './components/common/ProtectedRoute';
+import DashboardLayout from './components/layout/DashboardLayout';
+import LoginForm from './components/auth/LoginForm';
+import RegisterForm from './components/auth/RegisterForm';
+
+// Pages
+import Dashboard from './pages/Dashboard';
+import Profile from './pages/Profile';
+import Unauthorized from './pages/Unauthorized';
+import NotFound from './pages/NotFound';
 
 // Theme configuration
 const theme = createTheme({
@@ -174,9 +176,10 @@ const App: React.FC = () => {
                 <Route index element={<Navigate to="/dashboard" replace />} />
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="profile" element={<Profile />} />
+                
                 {/* Aquí se agregarán más rutas según se vayan desarrollando */}
-                 <Route path="clients" element={<ClientsPage />} /> 
-                <Route path="pets" element={<Pets />} />
+                {/* <Route path="clients" element={<Clients />} /> */}
+                {/* <Route path="pets" element={<Pets />} /> */}
                 {/* <Route path="appointments" element={<Appointments />} /> */}
                 {/* <Route path="inventory" element={<Inventory />} /> */}
                 {/* <Route path="billing" element={<Billing />} /> */}
