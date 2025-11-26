@@ -53,6 +53,11 @@ class PetService {
   async deleteMascota(id: number): Promise<void> {
     await this.api.delete(`/pets/${id}`);
   }
+
+  async getMascotasByCliente(clienteId: number): Promise<Mascota[]> {
+    const response = await this.api.get(`/clients/${clienteId}/mascotas`);
+    return response.data.data;
+  }
 }
 
 export default new PetService();

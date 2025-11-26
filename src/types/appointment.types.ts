@@ -18,10 +18,10 @@ export interface Cita {
   veterinario_id?: number;
   fecha_cita: string;
   hora_cita: string;
-  motivo_cita: string;
-  estado: EstadoCita;
+  motivo: string;
+  estado: 'Programada' | 'Confirmada' | 'En curso' | 'Completada' | 'Cancelada' | 'No asistió';
   observaciones?: string;
-  costo_consulta?: number;
+  fecha_creacion: string;
   activa: boolean;
   fecha_registro?: string;
   cliente?: Cliente;
@@ -35,9 +35,35 @@ export interface CitaFormData {
   veterinario_id?: number;
   fecha_cita: string;
   hora_cita: string;
-  motivo_cita: string;
+  motivo: string;
   observaciones?: string;
-  costo_consulta?: number;
+}
+
+export interface CitaUpdateData {
+  veterinario_id?: number;
+  fecha_cita?: string;
+  hora_cita?: string;
+  motivo?: string;
+  estado?: string;
+  observaciones?: string;
+  activa?: boolean;
+}
+
+export interface CitaFilters {
+  fecha?: string;
+  fecha_desde?: string;
+  fecha_hasta?: string;
+  cliente_id?: number;
+  mascota_id?: number;
+  veterinario_id?: number;
+  estado?: string;
+  page?: number;
+  per_page?: number;
+}
+
+export interface DisponibilidadParams {
+  fecha: string;
+  veterinario_id?: number;
 }
 
 export interface DisponibilidadResponse {

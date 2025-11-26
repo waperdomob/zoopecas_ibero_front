@@ -7,6 +7,7 @@ import { Toaster } from 'react-hot-toast';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { es } from 'date-fns/locale';
+
 import { AuthProvider } from '@/contexts/AuthContext';
 import LoginForm from '@/components/auth/LoginForm';
 import RegisterForm from '@/components/auth/RegisterForm';
@@ -18,6 +19,9 @@ import Profile from '@/pages/Profile';
 import Unauthorized from '@/pages/Unauthorized';
 import NotFound from '@/pages/NotFound';
 import Pets from '@/pages/Pets';
+import Appointments from '@/pages/appointments';
+import MedicalRecords from '@/pages/MedicalRecords';
+import DetalleHistoriaClinica from '@/components/clinicals/DetalleHistoriaClinica';
 
 
 // Theme configuration
@@ -177,11 +181,11 @@ const App: React.FC = () => {
                 {/* Aquí se agregarán más rutas según se vayan desarrollando */}
                  <Route path="clients" element={<ClientsPage />} /> 
                 <Route path="pets" element={<Pets />} />
-                {/* <Route path="appointments" element={<Appointments />} /> */}
+                <Route path="appointments" element={<Appointments />} />
                 {/* <Route path="inventory" element={<Inventory />} /> */}
                 {/* <Route path="billing" element={<Billing />} /> */}
-                {/* <Route path="medical-records/*" element={<MedicalRecords />} /> */}
-                
+                <Route path="medical-records/*" element={<MedicalRecords />} />
+                <Route path="medical-records/detail/:id" element={<DetalleHistoriaClinica />} />
                 {/* Rutas con restricción de roles */}
                 <Route
                   path="settings"

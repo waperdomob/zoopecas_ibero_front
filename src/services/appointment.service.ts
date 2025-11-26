@@ -1,5 +1,12 @@
 import { ApiResponse, PaginationData } from '../types/auth.types';
-import { Cita, CitaFormData, DisponibilidadResponse } from '../types/appointment.types';
+import { 
+  Cita, 
+  CitaFormData, 
+  CitaUpdateData, 
+  CitaFilters, 
+  DisponibilidadParams, 
+  DisponibilidadResponse 
+} from '@/types/appointment.types';
 import apiClient from './api';
 
 interface CitasListResponse {
