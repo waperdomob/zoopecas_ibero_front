@@ -63,7 +63,6 @@ const menuItems: MenuItemType[] = [
     path: '/medical-records',
     children: [
       { text: 'Consultas', icon: <LocalHospital />, path: '/medical-records/consultations' },
-      { text: 'Vacunas', icon: <LocalHospital />, path: '/medical-records/vaccines' },
       { text: 'Historial', icon: <Description />, path: '/medical-records/history' },
     ]
   },

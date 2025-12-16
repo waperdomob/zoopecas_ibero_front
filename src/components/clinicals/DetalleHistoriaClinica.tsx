@@ -1,4 +1,4 @@
-// src/pages/DetalleHistoriaClinica.tsx
+// src/components/clinicals/DetalleHistoriaClinica.tsx
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
@@ -23,6 +23,7 @@ import {
   TableHead,
   TableRow,
   Divider,
+  Tooltip,
 } from '@mui/material';
 import {
   ArrowBack,
@@ -43,6 +44,7 @@ import { es } from 'date-fns/locale';
 import medicalService from '../../services/medical.service';
 import { HistoriaClinica, Consulta } from '../../types/medical.types';
 import NuevaConsultaModal from './NuevaConsultaModal';
+import SeguimientoModal from './SeguimientoModal';
 
 const Grid = (props: any) => <MuiGrid {...props} />;
 
@@ -70,6 +72,8 @@ const DetalleHistoriaClinica: React.FC = () => {
   const [historia, setHistoria] = useState<HistoriaClinica | null>(null);
   const [consultas, setConsultas] = useState<Consulta[]>([]);
   const [modalConsultaOpen, setModalConsultaOpen] = useState(false);
+  const [selectedConsulta, setSelectedConsulta] = useState<Consulta | null>(null);
+  const [modalSeguimientoOpen, setModalSeguimientoOpen] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -110,6 +114,12 @@ const DetalleHistoriaClinica: React.FC = () => {
   const handleConsultaSuccess = () => {
     loadConsultas();
     setModalConsultaOpen(false);
+  };
+
+  const handleSeguimientoSuccess = () => {
+    loadConsultas();
+    setModalSeguimientoOpen(false);
+    setSelectedConsulta(null);
   };
 
   if (loading) {
@@ -318,7 +328,7 @@ const DetalleHistoriaClinica: React.FC = () => {
 
         {/* Tab 1: Información General */}
         <TabPanel value={tabValue} index={0}>
-        <Box sx={{ px: 3 }}>
+          <Box sx={{ px: 3 }}>
             <Grid container spacing={3}>
             
             {/* Sección: Información Básica */}
@@ -372,10 +382,13 @@ const DetalleHistoriaClinica: React.FC = () => {
                             Queja Principal
                         </Typography>
                         <Typography variant="body2" sx={{ minHeight: '60px' }}>
-                            {historia.queja_principal || 
-                            <Typography variant="body2" color="text.secondary" fontStyle="italic">
-                                No registrada
-                            </Typography>
+                            {historia.queja_principal 
+                              ? historia.queja_principal
+                              : (
+                                <Typography variant="body2" color="text.secondary" fontStyle="italic">
+                                  No registrada
+                                </Typography>
+                              )
                             }
                         </Typography>
                         </CardContent>
@@ -546,7 +559,7 @@ const DetalleHistoriaClinica: React.FC = () => {
             </Grid>
 
             </Grid>
-        </Box>
+          </Box>
         </TabPanel>
 
         {/* Tab 2: Consultas */}
@@ -588,19 +601,43 @@ const DetalleHistoriaClinica: React.FC = () => {
                         </TableCell>
                         <TableCell>{consulta.hora_consulta}</TableCell>
                         <TableCell>
-                          {consulta.veterinario?.nombre} {consulta.veterinario?.apellidos}
+                          Dr. {consulta.veterinario?.nombre} {consulta.veterinario?.apellidos}
                         </TableCell>
-                        <TableCell>{consulta.motivo_consulta}</TableCell>
                         <TableCell>
-                          {consulta.diagnostico || '-'}
+                          <Typography variant="body2" noWrap sx={{ maxWidth: 200 }}>
+                            {consulta.motivo_consulta}
+                          </Typography>
+                        </TableCell>
+                        <TableCell>
+                          <Typography variant="body2" noWrap sx={{ maxWidth: 200 }}>
+                            {consulta.diagnostico || '-'}
+                          </Typography>
                         </TableCell>
                         <TableCell>
                           {consulta.peso ? `${consulta.peso} kg` : '-'}
                         </TableCell>
                         <TableCell align="right">
-                          <IconButton size="small" color="primary">
-                            <Visibility />
-                          </IconButton>
+                          <Tooltip title="Ver detalles">
+                            <IconButton 
+                              size="small" 
+                              color="primary"
+                              onClick={() => navigate(`/medical-records/consultation/${consulta.consulta_id}`)}
+                            >
+                              <Visibility />
+                            </IconButton>
+                          </Tooltip>
+                          <Tooltip title="Agregar seguimiento">
+                            <IconButton 
+                              size="small" 
+                              color="secondary"
+                              onClick={() => {
+                                setSelectedConsulta(consulta);
+                                setModalSeguimientoOpen(true);
+                              }}
+                            >
+                              <Add />
+                            </IconButton>
+                          </Tooltip>
                         </TableCell>
                       </TableRow>
                     ))}
@@ -618,6 +655,17 @@ const DetalleHistoriaClinica: React.FC = () => {
         onClose={() => setModalConsultaOpen(false)}
         onSuccess={handleConsultaSuccess}
         historiaId={historia.historia_id}
+      />
+
+      {/* Modal Seguimiento */}
+      <SeguimientoModal
+        open={modalSeguimientoOpen}
+        onClose={() => {
+          setModalSeguimientoOpen(false);
+          setSelectedConsulta(null);
+        }}
+        onSuccess={handleSeguimientoSuccess}
+        consultaId={selectedConsulta?.consulta_id}
       />
     </Box>
   );

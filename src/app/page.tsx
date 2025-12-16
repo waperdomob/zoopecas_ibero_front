@@ -1,6 +1,5 @@
 'use client'
 import React from 'react';
-import Link from 'next/link';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
 import { Toaster } from 'react-hot-toast';
@@ -22,112 +21,12 @@ import Pets from '@/pages/Pets';
 import Appointments from '@/pages/appointments';
 import MedicalRecords from '@/pages/MedicalRecords';
 import DetalleHistoriaClinica from '@/components/clinicals/DetalleHistoriaClinica';
+import DetalleConsulta from '@/components/clinicals/DetalleConsulta';
+import ConsultasPage from '@/pages/Consultas';
 
-
-// Theme configuration
+// Theme configuration (mantén tu configuración actual)
 const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#667eea',
-      light: '#8b9aff',
-      dark: '#4754b7',
-    },
-    secondary: {
-      main: '#764ba2',
-      light: '#9c6cc4',
-      dark: '#512b73',
-    },
-    success: {
-      main: '#2ecc71',
-      light: '#58d68d',
-      dark: '#27ae60',
-    },
-    error: {
-      main: '#e74c3c',
-      light: '#ec7063',
-      dark: '#c0392b',
-    },
-    warning: {
-      main: '#f39c12',
-      light: '#f5b041',
-      dark: '#d68910',
-    },
-    info: {
-      main: '#3498db',
-      light: '#5dade2',
-      dark: '#2874a6',
-    },
-    background: {
-      default: '#f5f7fa',
-      paper: '#ffffff',
-    },
-  },
-  typography: {
-    fontFamily: "'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif",
-    h1: {
-      fontWeight: 700,
-    },
-    h2: {
-      fontWeight: 700,
-    },
-    h3: {
-      fontWeight: 600,
-    },
-    h4: {
-      fontWeight: 600,
-    },
-    h5: {
-      fontWeight: 600,
-    },
-    h6: {
-      fontWeight: 600,
-    },
-  },
-  shape: {
-    borderRadius: 8,
-  },
-  components: {
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          textTransform: 'none',
-          fontWeight: 500,
-          borderRadius: 8,
-        },
-      },
-    },
-    MuiCard: {
-      styleOverrides: {
-        root: {
-          boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
-          borderRadius: 12,
-        },
-      },
-    },
-    MuiPaper: {
-      styleOverrides: {
-        root: {
-          boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
-        },
-      },
-    },
-    MuiTextField: {
-      styleOverrides: {
-        root: {
-          '& .MuiOutlinedInput-root': {
-            borderRadius: 8,
-          },
-        },
-      },
-    },
-    MuiChip: {
-      styleOverrides: {
-        root: {
-          fontWeight: 500,
-        },
-      },
-    },
-  },
+  // ... tu configuración de theme
 });
 
 const App: React.FC = () => {
@@ -178,14 +77,19 @@ const App: React.FC = () => {
                 <Route index element={<Navigate to="/dashboard" replace />} />
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="profile" element={<Profile />} />
-                {/* Aquí se agregarán más rutas según se vayan desarrollando */}
-                 <Route path="clients" element={<ClientsPage />} /> 
+                <Route path="clients" element={<ClientsPage />} /> 
                 <Route path="pets" element={<Pets />} />
                 <Route path="appointments" element={<Appointments />} />
-                {/* <Route path="inventory" element={<Inventory />} /> */}
-                {/* <Route path="billing" element={<Billing />} /> */}
-                <Route path="medical-records/*" element={<MedicalRecords />} />
-                <Route path="medical-records/detail/:id" element={<DetalleHistoriaClinica />} />
+                
+                {/* Rutas de Historia Clínica */}
+                <Route path="medical-records">
+                  <Route index element={<MedicalRecords />} />
+                  <Route path="history" element={<MedicalRecords />} />
+                  <Route path="consultations" element={<ConsultasPage />} />
+                  <Route path="detail/:id" element={<DetalleHistoriaClinica />} />
+                  <Route path="consultation/:id" element={<DetalleConsulta />} />
+                </Route>
+                
                 {/* Rutas con restricción de roles */}
                 <Route
                   path="settings"

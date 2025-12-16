@@ -37,6 +37,7 @@ export interface Consulta {
   observaciones?: string;
   proxima_cita?: string;
   veterinario?: Veterinario;
+  historia?: HistoriaClinica;
 }
 
 export interface Veterinario {
@@ -53,6 +54,7 @@ export interface SeguimientoPaciente {
   seguimiento_id: number;
   consulta_id: number;
   fecha_seguimiento: string;
-  descripcion: string;
-  realizado_por: string;
+  hora_seguimiento?: string;
+  observaciones: string;
+  responsable?: string;
 }
